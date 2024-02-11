@@ -58,21 +58,54 @@ class Game:
       print('This is your cards: ' + str(player_deck))        
           
   def player_points(self):
+      
       for card in player_deck:
         soma = cards_values.get(card)
         self.player_total += soma
+        
       
     
-      print('And your total is {player_total}'.format(player_total = self.player_total))
+        
+        
+      
+    
+      print('your total is {player_total}'.format(player_total = self.player_total))
         
   def house_points(self):
       for card in house_deck:
           soma_house = cards_values.get(card)
           self.house_total += soma_house
-    
-      print('O total da casa é {house_total}'.format(house_total = self.house_total))    
 
-  
+      print('O total da casa é {house_total}'.format(house_total = self.house_total)) 
+      
+      
+      
+      
+  def buy_cards(self):
+      buy = input('Do you want to buy another card? If so, type Buy, if not, type No: ')
+      while buy != 'Buy' and buy != 'No':
+          buy = input('Whoops, seems that you have mistaken the spell, please, type Buy or No, as written in the terminal: ')
+      if buy == 'Buy':
+          another_card = random.choice(Cards)
+          player_deck.append(another_card)
+          print(player_deck)
+          another_buy = input('Do you  want another card?, if so, type Buy, if not, tipe No: ')
+          while another_buy != 'Buy' and another_buy != 'No':
+            another_buy = input('Whoops, seems that you have mistaken the spell, please, ty Buy or No, as written in the terminal: ')
+          while another_buy == 'Buy':
+            card2 = random.choice(Cards)
+            player_deck.append(card2)
+            another_buy = input('Do you want another card? if so, type Buy, if not, type No: ')
+            if another_buy == 'No':
+                print('Now we are going to calculate your cards')   
+      else:
+          print('Now we are going to calculate your cards')          
+
+  def player_points_after_buy(self):
+      for card in player_deck:
+          after_soma = cards_values.get(card)
+          self.player_total += after_soma
+          
 
 
 Game_one = Game()
@@ -96,6 +129,18 @@ input('''Press enter to continue
 ''')
 
 Game_one.player_cards()
+    
+
+    
+
+
+
+input('''Press enter to continue 
+
+
+''')
+
+Game_one.buy_cards()
 
 
 input('''Press enter to continue 
