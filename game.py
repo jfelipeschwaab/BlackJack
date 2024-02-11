@@ -16,6 +16,7 @@ class Game:
       self.player = player 
       self.cards = cards
       self.player_total = 0
+      self.house_total = 0
         
         
         
@@ -41,9 +42,14 @@ class Game:
     
 
   def house_cards(self):
-      for _ in range(2):
-        random_two_cards = random.choice(Cards)
-        house_deck.append(random_two_cards)
+      
+      first_house_card = random.choice(Cards)
+      second_house_card = random.choice(Cards)
+    
+      house_deck.append(first_house_card)
+      house_deck.append(second_house_card)
+      
+      print('The house cards are {first} and {second}'.format(first = first_house_card, second = second_house_card))
           
           
   def player_cards(self):
@@ -59,9 +65,12 @@ class Game:
     
       print('And your total is {player_total}'.format(player_total = self.player_total))
         
+  def house_points(self):
+      for card in house_deck:
+          soma_house = cards_values.get(card)
+          self.house_total += soma_house
     
-    
-          
+      print('O total da casa é {house_total}'.format(house_total = self.house_total))    
 
   
 
@@ -95,4 +104,18 @@ input('''Press enter to continue
 ''')
 
 Game_one.player_points()
+
+
+input('''Press enter to continue 
+
+
+''')
+
+
+Game_one.house_cards()
+Game_one.house_points()
+
+
+
+
     
