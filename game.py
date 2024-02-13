@@ -1,13 +1,24 @@
 from entities.card import Cards
 from entities.card import cards_values
 import random
+import sys
 
 
 
 player_name = input('Hello, Welcome to the terminal blackjack game. please, enter your Player name: ')
+print('''
+      Hello {player_name} The BlackJack Game consists as a try to have 21 points or less at the end of the game to win the House, which one has points too.
+      if you ultrapass the value of 21 points, you've already lost.
+      Each card Has your value, the number has the value itself, and Letters are 10 valuable, in exception for the Ace, which one has the 11 value
+      '''.format(player_name = player_name ))
+input('''Press enter to continue 
+
+
+''')
 
 player_deck = [] 
 house_deck = []
+
 class Game:
 
 
@@ -72,11 +83,11 @@ class Game:
       print('your total is {player_total}'.format(player_total = self.player_total))
         
   def house_points(self):
-      for card in house_deck:
-          soma_house = cards_values.get(card)
-          self.house_total += soma_house
+        for card in house_deck:
+            soma_house = cards_values.get(card)
+            self.house_total += soma_house
 
-      print('O total da casa é {house_total}'.format(house_total = self.house_total)) 
+        print('The house total is:  {house_total}'.format(house_total = self.house_total)) 
       
       
       
@@ -86,26 +97,83 @@ class Game:
       while buy != 'Buy' and buy != 'No':
           buy = input('Whoops, seems that you have mistaken the spell, please, type Buy or No, as written in the terminal: ')
       if buy == 'Buy':
+          global after_buy
+          after_buy = []
           another_card = random.choice(Cards)
           player_deck.append(another_card)
+          after_buy.append(another_card)
           print(player_deck)
           another_buy = input('Do you  want another card?, if so, type Buy, if not, tipe No: ')
+          
+          
           while another_buy != 'Buy' and another_buy != 'No':
             another_buy = input('Whoops, seems that you have mistaken the spell, please, ty Buy or No, as written in the terminal: ')
-          while another_buy == 'Buy':
-            card2 = random.choice(Cards)
-            player_deck.append(card2)
-            another_buy = input('Do you want another card? if so, type Buy, if not, type No: ')
-            if another_buy == 'No':
-                print('Now we are going to calculate your cards')   
-      else:
-          print('Now we are going to calculate your cards')          
-
-  def player_points_after_buy(self):
-      for card in player_deck:
-          after_soma = cards_values.get(card)
-          self.player_total += after_soma
           
+          while another_buy == 'Buy':
+              if len(player_deck) < 20:
+                card2 = random.choice(Cards)
+                player_deck.append(card2)
+                after_buy.append(card2)
+                print(player_deck)
+            
+                another_buy = input('Do you want another card? if so, type Buy, if not, type No: ')
+              
+                  
+            
+            
+          if another_buy == 'No': 
+                          
+              for card in after_buy:                
+                  after_buy = cards_values.get(card)
+                  if after_buy is not None:                     
+                      self.player_total += after_buy
+              print('Your total is {player_total}'.format(player_total = self.player_total))
+      
+         
+      else:
+          print('Your total is {player_total}'.format(player_total = self.player_total))       
+               
+
+  def BlackJack_player(self):
+      if self.player_total == 21:
+          print("You've already won, you have a BlackJack")
+          sys.exit()
+      elif self.player_total > 21:
+          print("You've already lost, you ultrapassed the limit of 21 ")
+          sys.exit() 
+          
+    
+    
+      else:
+          pass
+           
+  def BlackJack_house(self):
+      if self.house_total == 21 and self.player_total ==21:
+          print("Whoops, seems that you and the House have the same amount, that's a draw")
+    
+      elif self.house_total == 21 and not self.player_total >= 21:
+          print("The house has a blackjack, you've already lost partner")
+    
+      elif self.house_total == 21 and self.player_total > 21:
+          print("You are in a bad day, seems that the house has a BlackJack and you've ultrapassed the limit of 21") 
+      else:
+          pass   
+          
+          
+          
+          
+  def Winner(self):
+      if self.player_total > self.house_total and self.player_total <= 21:
+          print('Congratulations, you are the winner')       
+    
+      elif self.player_total < self.house_total and self.house_total <= 21:
+          print('Seems that the House have won, lucky next time')
+      elif self.player_total == self.house_total:
+          print('You and the house have the same points, that is a Draw')
+      elif self.player_total > 21:
+          print('You have ultrapassed the 21 limit, you have lost, Good lucky next time')
+      else:         
+          pass
 
 
 Game_one = Game()
@@ -140,25 +208,30 @@ input('''Press enter to continue
 
 ''')
 
+
+Game_one.player_points()
+Game_one.BlackJack_player()
+
+input('''Press enter to continue 
+
+
+''')
 Game_one.buy_cards()
 
 
-input('''Press enter to continue 
-
-
-''')
-
-Game_one.player_points()
-
 
 input('''Press enter to continue 
 
 
 ''')
+
 
 
 Game_one.house_cards()
 Game_one.house_points()
+Game_one.BlackJack_house()
+Game_one.Winner()
+
 
 
 
